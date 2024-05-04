@@ -19,9 +19,11 @@ export class JobService {
         private readonly configService: ConfigService,
     ) {}
 
-    findAll(){
-        return this.jobModel.find();
+    findAll() {
+        // Sort by the 'date' field in descending order
+        return this.jobModel.find().sort({ date: -1 });
     }
+       
     
     async createjob(createJobDto: CreateJobDto): Promise<any> {
 

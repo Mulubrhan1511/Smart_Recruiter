@@ -13,7 +13,6 @@ export class Job extends Document {
   @Prop({ type: [String], default: [] }) // Define it as an array of strings
   skills: string[];
 
-
   @Prop({ required: true })
   location: string;
 
@@ -35,7 +34,10 @@ export class Job extends Document {
   @Prop({ required: true })
   expiryDate: Date;
 
-  @Prop([{ 
+  @Prop(String) // Array of strings representing job experience
+  experience: string;
+
+  @Prop([{
     user: { type: Types.ObjectId, ref: 'User' }, // Use Types.ObjectId here
     status: { type: String, enum: ['pending', 'interview', 'rejected'], default: 'pending' },
     fieldOfStudy: String,
@@ -43,7 +45,14 @@ export class Job extends Document {
     resume: String,
     name: String
   }])
-  applicants: { user: Types.ObjectId, status: string, resume: string, fieldOfStudy: String, location: String, name: String }[];
+  applicants: {
+    user: Types.ObjectId;
+    status: string;
+    resume: string;
+    fieldOfStudy: String;
+    location: String;
+    name: String;
+  }[];
 }
 
 export const JobSchema = SchemaFactory.createForClass(Job);

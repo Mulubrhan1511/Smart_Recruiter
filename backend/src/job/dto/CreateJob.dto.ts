@@ -16,6 +16,8 @@ export class CreateJobDto {
     @IsString({ each: true })
     skills: string[];
 
+    @IsString()
+    experience: string;
 
     @IsNotEmpty()
     @IsString()
