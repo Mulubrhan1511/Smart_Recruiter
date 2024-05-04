@@ -33,7 +33,7 @@ export const ResetPassword = ({ email }) => {
             if (error.response && error.response.status === 401) {
                 setError('Your session has expired. Please try again');
             } else {
-                console.error('Error:', error); // Log the error to the console for debugging
+                
                 setError('An unexpected error occurred. Please try again later.');
             }
         }

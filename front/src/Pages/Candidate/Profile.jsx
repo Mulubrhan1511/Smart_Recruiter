@@ -61,7 +61,7 @@ export const ProfileForm = () => {
         }
       })
       .then((response) => {
-        console.log('Response data:', response.data);
+        
         if(response.data && response.data.user && response.data.user.profile) {
           localStorage.setItem('user', JSON.stringify({
             ...user,
@@ -82,12 +82,12 @@ export const ProfileForm = () => {
           // Redirect to home page
           window.location.href = '/';
         } else {
-          console.log('Error updating profile');
+          
         }
       })
       
       .catch(error => {
-        console.error('Error updating profile:', error);
+        
       });
   };
   

@@ -11,7 +11,7 @@ export const Signup = () => {
   const signup = (event) => {
     event.preventDefault(); // Prevent form submission and page reload
     if (email === '' || password === '' || name === '') {
-      console.log('Please fill all the fields');
+      setError('Please fill in all fields');
     } else {
       axios.post('api/users', { name, email, password })
   .then(response => {

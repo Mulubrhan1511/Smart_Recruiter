@@ -8,7 +8,6 @@ export const Jobs = () => {
   const jobs = useSelector(state => state.jobs.jobs);
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem('user'));
-  const [filteredJobs2, setData] = useState([]);
   const filteredJobs = useSelector(state => state.jobs.filteredJobs);
 
   useEffect(() => {

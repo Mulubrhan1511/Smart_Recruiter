@@ -16,6 +16,7 @@ export const HrNewJob = () => {
   const [success, setSuccess] = useState(false);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false); // State to track form submission
   const [error, setError] = useState(null); // State to track error
+  const [experience, setExperience] = useState(''); 
 
   useEffect(() => {
     if(error){
@@ -59,14 +60,15 @@ export const HrNewJob = () => {
       !company.trim() ||
       !salary.trim() ||
       totalApplicants <= 0 ||
-      !expiryDate.trim()
+      !expiryDate.trim() ||
+      !experience.trim() // Check if experience is selected
     ) {
       setError('Please fill out all fields.'); // Set error message
       return;
     }
-
+  
     const token = localStorage.getItem('jwt');
-
+  
     axios
       .post(`/api/jobs`, {
         title: title,
@@ -78,13 +80,14 @@ export const HrNewJob = () => {
         skills: tags,
         totalApplicants: totalApplicants,
         expiryDate: expiryDate,
+        experience: experience, // Include experience in the request payload
       }, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       })
       .then((response) => {
-        console.log('Applied:', response.data);
+        
         setSuccess(true);
         setTitle('');
         setDescription('');
@@ -95,6 +98,7 @@ export const HrNewJob = () => {
         setTags([]);
         setTotalApplicants(0);
         setExpiryDate('');
+        setExperience(''); // Reset experience state
         setIsFormSubmitted(false); // Reset form submission state
       })
       .catch((error) => {
@@ -103,6 +107,7 @@ export const HrNewJob = () => {
         setIsFormSubmitted(false); // Reset form submission state
       });
   };
+  
 
   return (
     <div className="flex-1">
@@ -193,6 +198,22 @@ export const HrNewJob = () => {
                 className="border border-gray-300 p-2 rounded-lg mt-2"
               />
             </div>
+
+            <div className="flex flex-col mb-4">
+  <label className="text-lg font-semibold mb-2">Experience</label>
+  <select
+    className={`border border-gray-300 p-2 rounded-lg ${isFormSubmitted && !experience.trim() ? 'border-red-500' : ''}`}
+    value={experience}
+    onChange={(e) => setExperience(e.target.value)}
+  >
+    <option value="">Select Experience</option>
+    <option value="0-1 years">0-1 years</option>
+    <option value="1-3 years">1-3 years</option>
+    <option value="3-5 years">3-5 years</option>
+    <option value="5+ years">5+ years</option>
+  </select>
+</div>
+
 
             <div className="flex flex-col mb-4">
               <label className="text-lg font-semibold mb-2">Total Applicants Needed</label>

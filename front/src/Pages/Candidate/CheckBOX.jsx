@@ -20,7 +20,7 @@ export default function BucketList() {
     );
     artwork.seen = nextSeen;
     setMyList(myNextList);
-    console.log(myNextList);
+    
   }
 
   function handleToggleYourList(artworkId, nextSeen) {

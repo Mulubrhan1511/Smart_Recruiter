@@ -21,21 +21,43 @@ const jobSlice = createSlice({
   },
   reducers: {
     filterJobs: (state, action) => {
-      const { titles, types } = action.payload;
-      
-      if ((!titles || titles.length === 0) && (!types || types.length === 0)) {
+      const { experience, types, date } = action.payload;
+
+      if ((!experience || experience.length === 0) && (!types || types.length === 0) && (!date || date.length === 0)) {
         state.filteredJobs = state.jobs;
         return;
       }
 
       state.filteredJobs = state.jobs.filter(job => {
-        const titleCondition = !titles || titles.length === 0 || titles.includes(job.title);
+        const experienceCondition = !experience || experience.length === 0 || experience.includes(job.experience);
         const typeCondition = !types || types.length === 0 || types.includes(job.type);
-        return titleCondition && typeCondition;
+        const dateCondition = !date || date.length === 0 || dateIncludes(job.date, date);
+
+        return experienceCondition && typeCondition && dateCondition;
       });
     },
   },
 });
+
+// Helper function to check if the date falls within the selected range
+const dateIncludes = (jobDate, selectedDates) => {
+  const today = new Date();
+  const thisWeekStart = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());
+  const thisMonthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+
+  const jobDateTime = new Date(jobDate).getTime();
+
+  if (selectedDates.includes('Today')) {
+    return jobDateTime >= today.setHours(0, 0, 0, 0);
+  } else if (selectedDates.includes('This Week')) {
+    return jobDateTime >= thisWeekStart.getTime();
+  } else if (selectedDates.includes('This Month')) {
+    return jobDateTime >= thisMonthStart.getTime() && jobDateTime <= today.getTime();
+  }
+
+  return false;
+};
+
 
 export const { filterJobs } = jobSlice.actions;
 export default jobSlice.reducer;

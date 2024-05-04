@@ -28,7 +28,7 @@ export const DetailJob = () => {
                 setLoading(false);
             })
             .catch((error) => {
-                console.error('Error fetching job details:', error);
+                
                 setLoading(false);
             });
     }, [jobId]);
@@ -61,7 +61,7 @@ export const DetailJob = () => {
             }
         })
         .then((response) => {
-            console.log('Applied:', response.data);
+           
             setApplied(false); // Set applied to true after successful application
             // Fetch the updated job details after applying
             axios.post(`/api/jobs/getjobs/${jobId}`)
@@ -70,12 +70,12 @@ export const DetailJob = () => {
                     setLoading(false);
                 })
                 .catch((error) => {
-                    console.error('Error fetching job details:', error);
+                    
                     setLoading(false);
                 });
         })
         .catch((error) => {
-            console.error('Error applying for job:', error);
+            
         });
     }
     
@@ -111,9 +111,18 @@ export const DetailJob = () => {
         <h2 className="text-xl font-bold mb-2">About this Job</h2>
         <p className="text-gray-600">{job.description}</p>
         <h2 className="text-xl font-bold mt-4 mb-2">Responsibilities</h2>
-        <p className="text-gray-600">{job.responsibilities}</p>
-        <h2 className="text-xl font-bold mt-4 mb-2">Requirements</h2>
-        <p className="text-gray-600">{job.requirements}</p>
+        <p className="text-gray-600">
+  As a valued member of our team, your responsibilities will include contributing to the achievement of company goals, collaborating with colleagues to drive innovation and growth, and consistently delivering high-quality work that meets or exceeds customer expectations.
+</p>
+
+        <h2 className="text-xl font-bold mt-4 mb-2">Skill</h2>
+        <div className="flex flex-wrap">
+          {job.skills && job.skills.map((skill, index) => (
+            <div key={index} className="bg-blue-500 text-white rounded-full px-3 py-1 m-1 flex items-center">
+              {skill}
+            </div>
+          ))}
+        </div>
     </div>
 
     <div className="bg-white shadow-md p-6 rounded-lg md:w-1/2">

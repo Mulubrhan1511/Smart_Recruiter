@@ -6,23 +6,23 @@ export const Signin = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  
+  const [err, seterr]= useState('');
 
   
   const handleSubmit = (event) => {
     event.preventDefault(); // Prevent form submission and page reload
     if (email === '' || password === '') {
-      console.log('Please fill all the fields');
+      
     } else {
       axios.post('api/users/sigin', { email, password })
       .then(res => {
-        console.log(res.data)
+        
         if (res.data) {
           localStorage.setItem("jwt",res.data.token)
           localStorage.setItem("user",JSON.stringify(res.data.user))
           window.location.href = '/';
         } else {
-          console.log('Invalid email or password');
+          seterr('Invalid email or password');
         }
       
       })
@@ -41,6 +41,7 @@ export const Signin = () => {
           <h2 className="text-2xl font-bold mb-4">Login</h2>
           <form onSubmit={handleSubmit}>
             <div>
+              {err && <p className="text-red-600">{err}</p>}
               <input
                 type="email"
                 placeholder="Email"

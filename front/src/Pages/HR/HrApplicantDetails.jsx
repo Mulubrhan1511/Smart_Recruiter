@@ -16,6 +16,7 @@ export const HrApplicantDetails = () => {
   const [applicantdetail, setApplicantDetail] = useState([]);
   const [resume, setResume] = useState('');
   const [interviewdate, setInterviewDate] = useState('');
+  const [error, setError] = useState('');
   
   
 
@@ -26,7 +27,7 @@ export const HrApplicantDetails = () => {
     axios.post(`/api/jobs/getjobs/${jobId}`)
   .then((response) => {
     // Logging the response data
-    console.log('Response data:', response.data);
+    
     
     // Set job details
     setJob(response.data);
@@ -37,12 +38,12 @@ export const HrApplicantDetails = () => {
       // Set resume if applicant is found
       setResume(foundApplicant.resume);
     } else {
-      // Handle case when applicant is not found
-      console.error('Applicant not found for user ID:', userId);
+      
     }
   })
   .catch((error) => {
-    console.error('Error fetching job details:', error);
+    setError('Failed to fetch job details');
+    
   });
 
     axios.get(`/api/users/${userId}`)
@@ -68,7 +69,7 @@ export const HrApplicantDetails = () => {
         }
       })
       .then((response) => {
-        console.log('Interview scheduled');
+       
       })
       .catch((error) => {
         console.error('Error scheduling interview:', error);
@@ -85,7 +86,7 @@ export const HrApplicantDetails = () => {
         }
       })
       .then((response) => {
-        console.log('Applicant rejected');
+        
       })
       .catch((error) => {
         console.error('Error rejecting applicant:', error);

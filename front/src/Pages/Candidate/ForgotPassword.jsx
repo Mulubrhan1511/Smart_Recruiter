@@ -23,7 +23,7 @@ export const ForgotPassword = () => {
     } catch (error) {
       setMessage('');
       setError('Failed to initiate password reset. Please try again.');
-      console.log(error);
+      
     }
   };
 

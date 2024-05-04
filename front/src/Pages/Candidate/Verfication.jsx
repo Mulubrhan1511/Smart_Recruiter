@@ -3,12 +3,13 @@ import axios from 'axios';
 export const Verfication = () => {
     const [verificationCode, setVerificationCode] = useState('');
     const user = JSON.parse(localStorage.getItem('user'));
+    const [error, setError] = useState('');
 
     const handleSubmit = (event) => {
     event.preventDefault();
 
     if (verificationCode.length !== 6) {
-      console.log('Please enter verification code');
+      setError('Invalid verification code');
       return;
     }
     // Add your verification logic here, e.g., sending the code to the server for validation
@@ -18,7 +19,7 @@ export const Verfication = () => {
             localStorage.setItem('user', JSON.stringify({ ...user, verified: true }));
             window.location.href = '/';
         } else {
-            console.log('Invalid verification code');
+            setError('Invalid verification code');
         }
         
     })
