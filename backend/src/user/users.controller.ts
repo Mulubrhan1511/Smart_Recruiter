@@ -8,6 +8,7 @@ import { SiginUserDto } from "./dto/SiginUserDto.dto";
 import { VerfyUserDto } from "./dto/VerfyUserDto.dto";
 import { UserProfilesDto } from "./dto/UserProfile.dto";
 import { ResetPasswordDto } from "./dto/ResetPasswordDto.dto";
+import { UpdateProfileDto } from "./dto/UpdateProfileDto.dto";
 
 
 
@@ -46,13 +47,10 @@ export class UsersController{
 
     @Patch(':id')
     @UsePipes(new ValidationPipe())
-    updateUser(@Param('id') id: string,@Body() UpdateUser: UpdateUser){
-        const isValid = mongoose.Types.ObjectId.isValid(id);
-        if(!isValid) return "User id not found"; 
-        const updateUser = this.userService.updateUser(id, UpdateUser);
-        if (!updateUser) throw new HttpException('User not found', 404);
-        return updateUser;
+    updateUser(@Body() updateUser: UpdateProfileDto, @Param('id') id: string) {
+        return this.userService.updateUser(updateUser, id);
     }
+
 
     @Delete(':id')
     deleteUser(@Param('id') id: string){
@@ -96,6 +94,7 @@ export class UsersController{
         return this.userService.resetPassword(resetPassordDto);
     }
 
+    
 
     
 }

@@ -12,6 +12,7 @@ import { VerfyUserDto } from "./dto/VerfyUserDto.dto";
 import { UserProfilesDto } from "./dto/UserProfile.dto";
 import { ResetPasswordDto } from "./dto/ResetPasswordDto.dto";
 import { ConfigService } from '@nestjs/config';
+import { UpdateProfileDto } from "./dto/UpdateProfileDto.dto";
 
 
 
@@ -222,8 +223,21 @@ export class UsersService {
             return { user: { _id, email, name, verified, type, profile }};
         }
 
-        updateUser(id: string, updateUser: UpdateUser){
-                return this.userModel.findByIdAndUpdate(id, updateUser,{new: true})
+        async updateUser(updateUser: UpdateProfileDto, id: string) {
+            const user = await this.userModel.findById(id);
+            if (!user) {
+                throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+            }
+    
+            // Update user profile fields
+            user.profile = {
+                ...user.profile,
+                ...updateUser,
+            };
+    
+            // Save the updated user
+            const updatedUser = await user.save();
+            return updatedUser;
         }
 
         deleteUser(id: string){
@@ -346,6 +360,8 @@ export class UsersService {
         
             return true;
         }
+
+        
 
         
         
