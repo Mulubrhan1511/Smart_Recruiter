@@ -161,7 +161,23 @@ export class JobService {
         }
     
         return job;
-    }    
+    } 
+
+    async getApplyJob(userId: string): Promise<any> {
+        // First, ensure the user exists
+        const user = await this.userService.getUserById(userId);
+        if (!user) {
+            return "User not found";
+        }
+    
+        // Now, find jobs where the applicants array contains the user's ID
+        const jobs = await this.jobModel.find({
+            "applicants.user": user._id
+        });
+    
+        return jobs;
+    }
+    
        
         
 }
