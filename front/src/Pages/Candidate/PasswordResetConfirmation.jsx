@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Navbar } from '../../Components/Candidate/Navbar';
 import { ResetPassword } from './ResetPassword'; // Import ResetPassword component
@@ -7,18 +7,39 @@ const PasswordResetConfirmation = ({ email }) => {
     const [verification, setVerification] = useState('');
     const [resetInitiated, setResetInitiated] = useState(false);
     const [error, setError] = useState('');
+    const [countdown, setCountdown] = useState(120); // Initial countdown time in seconds (2 minutes)
+
+    useEffect(() => {
+        // Start the countdown timer when the component mounts
+        const timer = setInterval(() => {
+            setCountdown(prevCountdown => prevCountdown - 1); // Decrease countdown by 1 second
+        }, 1000);
+
+        // Clear the timer when the component unmounts
+        return () => clearInterval(timer);
+    }, []);
 
     const checkVerification = () => {
-        axios.post('/api/users/checkverfication', {email, code:verification})
-        .then(res => {
-            if(res.data){
-                setResetInitiated(true)
-            }
-            else{
-                setError('Invalid verification code')
+        const token = localStorage.getItem('jwt');
+        axios.post('/api/users/checkverfication', { email, code: verification }, {
+            headers: {
+                Authorization: `Bearer ${token}`
             }
         })
-    }
+        .then(res => {
+            if (res.data) {
+                setResetInitiated(true);
+            } else {
+                setError('Invalid verification code');
+            }
+        });
+    };
+
+    const formatTime = (seconds) => {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+    };
 
     return (
         <>
@@ -37,6 +58,22 @@ const PasswordResetConfirmation = ({ email }) => {
                                 error && <p className="text-red-500">{error}</p>
                             }
                             <div>
+                            <div className="mt-4 text-gray-600">
+                                    {countdown > 0 ? (
+                                        <>
+                                            <p>Time left to enter verification code:</p>
+                                            <div className="flex items-center justify-center mt-2">
+                                                <div className="bg-gray-200 p-2 rounded-md flex items-center">
+                                                    
+                                                    <span className="text-lg font-semibold">{formatTime(countdown)}</span>
+                                                </div>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <p className='text-red-600'>Verification code has expired.</p>
+                                    )}
+                                </div>
+
                                 <input
                                     type="text"
                                     placeholder="Enter verification code"
@@ -47,6 +84,7 @@ const PasswordResetConfirmation = ({ email }) => {
                                 <button type="button" className="w-full bg-blue-500 text-white py-2 rounded-md" onClick={checkVerification}>
                                     Verify and Reset Password
                                 </button>
+                               
                             </div>
                         </div>
                     </div>

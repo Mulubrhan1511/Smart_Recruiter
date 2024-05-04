@@ -16,13 +16,14 @@ export const ForgotPassword = () => {
 
     try {
       const response = await axios.post('/api/users/forgot-password', { email });
-      console.log(response.data); // Assuming response contains success message or email
-
+      
+      localStorage.setItem("jwt",response.data)
       // Set the resetInitiated state to true
       setResetInitiated(true);
     } catch (error) {
       setMessage('');
       setError('Failed to initiate password reset. Please try again.');
+      console.log(error);
     }
   };
 

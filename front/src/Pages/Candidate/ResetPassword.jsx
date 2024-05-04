@@ -9,29 +9,37 @@ export const ResetPassword = ({ email }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+    
         if (password !== confirmPassword) {
             setError('Passwords do not match');
             return;
         }
+    
+        const token = localStorage.getItem('jwt');
         
         try {
-            axios.post('/api/users/resetpassword', { email, password })
-            .then(res => {
-                if (res.data) {
-
-                    window.location.href = '/login';
-                } else {
-                    console.log('Invalid email or password')
+            const response = await axios.post('/api/users/resetpassword', { email, password }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('jwt')}`
                 }
+            });
             
-            })
-            
+            if (response.data) {
+                window.location.href = '/login';
+            } else {
+                setError('Invalid email or password');
+            }
         } catch (error) {
-            setMessage('');
-            console.log(error)
+            if (error.response && error.response.status === 401) {
+                setError('Your session has expired. Please try again');
+            } else {
+                console.error('Error:', error); // Log the error to the console for debugging
+                setError('An unexpected error occurred. Please try again later.');
+            }
         }
     };
+    
+    
 
     return (
         <div className="min-h-screen flex items-center justify-center">
