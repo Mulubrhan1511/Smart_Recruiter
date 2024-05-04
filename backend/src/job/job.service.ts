@@ -118,7 +118,7 @@ export class JobService {
         if (userApprovalDto.status === 'interview') {
             // Email template for interview invitation
             mailOptions = {
-                from: 'mulubrhangebrkidan@gmail.com',
+                from: my_email,
                 to: user.email,
                 subject: `Interview Invitation for ${job.title}`,
                 html: `<p>Hi ${user.name},</p>` +
@@ -131,7 +131,7 @@ export class JobService {
         } else {
             // Email template for rejection notification
             mailOptions = {
-                from: 'mulubrhangebrkidan@gmail.com',
+                from: my_email,
                 to: user.email,
                 subject: `Application Update for ${job.title}`,
                 html: `<p>Hi ${user.name},</p>` +

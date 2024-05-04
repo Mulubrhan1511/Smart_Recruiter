@@ -6,6 +6,7 @@ import { JobModule } from './job/job.module';
 import { RequiredLoginMiddleware } from './middleware/requiredlogin.middleware';
 import { RequiredAdminMiddleware } from './middleware/requiredadmin.middleware';
 import { ConfigModule } from '@nestjs/config';
+import { ForgotPasswordMiddleware } from './middleware/forgotpassword.middleware';
 
 @Module({
   imports: [
@@ -38,5 +39,13 @@ export class AppModule implements NestModule {
     consumer
       .apply(RequiredLoginMiddleware)
       .forRoutes({ path: 'profile/:id', method: RequestMethod.PATCH });
+
+    consumer
+      .apply(ForgotPasswordMiddleware)
+      .forRoutes({path: 'users/resetpassword',method:RequestMethod.POST})
+
+    consumer
+      .apply(ForgotPasswordMiddleware)
+      .forRoutes({path: 'users/checkverfication',method:RequestMethod.POST})
   }
 }

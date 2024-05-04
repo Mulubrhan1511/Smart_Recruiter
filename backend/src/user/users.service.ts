@@ -14,7 +14,7 @@ import { ResetPasswordDto } from "./dto/ResetPasswordDto.dto";
 import { ConfigService } from '@nestjs/config';
 
 
-const JWT_SECRET = 'hfvafhbfv34578908678987897876htyuile';
+
 
 @Injectable()
 export class UsersService {
@@ -63,7 +63,7 @@ export class UsersService {
         });
 
         const mailOptions = {
-            from: 'mulubrhangebrkidan@gmail.com',
+            from: my_email,
             to: newUser.email,
             subject: 'Welcome to our Application! Verify Your Email',
             html: `<p>Hi ${newUser.name},</p>` +
@@ -263,7 +263,7 @@ export class UsersService {
             });
 
             const mailOptions = {
-                from: 'mulubrhangebrkidan@gmail.com',
+                from: my_email,
                 to: user.email,
                 subject: 'Forgot Password',
                 html: `<p>Hi ${user.name},</p>` +
@@ -287,6 +287,7 @@ export class UsersService {
             
             // Generate token with 20 minutes expiry
             const token = jwt.sign({ userId: user._id }, forgot_password_token, { expiresIn: '2m' });
+
 
 
         
