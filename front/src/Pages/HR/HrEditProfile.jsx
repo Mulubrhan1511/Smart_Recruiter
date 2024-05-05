@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Navbar } from '../../Components/Candidate/Navbar';
-import axios from 'axios';
+import React,{useState, useEffect} from 'react'
+import { Sidebar } from '../../Components/Hr/Sidebar'
+import axios from 'axios'
 
-export const EditProfile = () => {
+export const HrEditProfile = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
@@ -75,12 +75,13 @@ export const EditProfile = () => {
             });
 
     };
-
-    return (
-        <div className='relative w-full h-screen'>
-            <Navbar />
-            <div className="relative container  top-16 justify-center">
-                {success && (
+  return (
+    <div className="flex-1">
+      <div className='z-30'>
+        <Sidebar />
+      </div>
+    <div className="container mx-auto px-4 py-8 lg:px-72">
+    {success && (
                     <div id="toast-success" className="z-50 justify-end right-0 fixed flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800">
                         <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
                             <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -181,7 +182,8 @@ export const EditProfile = () => {
                     </div>
                 </div>
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={submit}>Save Changes</button>
-            </div>
-        </div>
-    );
-};
+           
+    </div>
+    </div>
+  )
+}

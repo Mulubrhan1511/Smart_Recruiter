@@ -15,6 +15,7 @@ import { DetailJob } from './Pages/Candidate/DetailJob';
 import { ProfileForm } from './Pages/Candidate/Profile';
 import { ForgotPassword } from './Pages/Candidate/ForgotPassword';
 import { EditProfile } from './Pages/Candidate/EditProfile';
+import { HrEditProfile } from './Pages/HR/HrEditProfile';
 
 function App() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -34,6 +35,7 @@ function App() {
   
               <Route path='/newjob' element={<HrNewJob/>} />
               <Route path='/newuser' element={<HrNewUser/>} />
+              <Route path='/profile' element={<HrEditProfile />} />
               <Route path='*' element={<HrHome />} />
             </>
           );

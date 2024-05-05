@@ -24,7 +24,7 @@ const HrHome = () => {
       
       <div className='flex-1  left-0 py-8  lg:px-72'>
         <h1 className='text-4xl font-bold mb-8 text-gray-900'>Welcome, {user.name}!</h1>
-        <a href='/home'>
+        
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {
   jobs.map(job => (
@@ -77,7 +77,7 @@ const HrHome = () => {
 
 
         </div>
-        </a>
+        
       </div>
     </div>
   );

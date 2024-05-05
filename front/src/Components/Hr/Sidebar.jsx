@@ -47,7 +47,7 @@ export const Sidebar = () => {
           <div className="relative">
           {isDropdownOpen && (
             <div className="absolute top-full left-0 mt-2 bg-white shadow-md rounded-md">
-              <a href="#" className="block px-4 py-2 text-gray-800  hover:bg-green-600 sm:bg-green-500 ">Account</a>
+              <a href="/profile" className="block px-4 py-2 text-gray-800  hover:bg-green-600 sm:bg-green-500 ">Account</a>
               <a href="#" className="text-gray-700 block px-4 py-2 text-sm hover:bg-red-500 sm:bg-red-500" onClick={handleSignOut}>Log out</a>
 
             </div>
