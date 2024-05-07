@@ -17,6 +17,7 @@ export const HrApplicantDetails = () => {
   const [resume, setResume] = useState('');
   const [interviewdate, setInterviewDate] = useState('');
   const [error, setError] = useState('');
+  const [applicantStatus, setApplicantStatus] = useState('pending');
   
   
 
@@ -37,6 +38,8 @@ export const HrApplicantDetails = () => {
     if (foundApplicant) {
       // Set resume if applicant is found
       setResume(foundApplicant.resume);
+      setApplicantStatus(foundApplicant.status);
+      console.log(foundApplicant.status);
     } else {
       
     }
@@ -86,6 +89,7 @@ export const HrApplicantDetails = () => {
         }
       })
       .then((response) => {
+        setJob(response.data);
         
       })
       .catch((error) => {
@@ -111,21 +115,41 @@ export const HrApplicantDetails = () => {
             <h1 className="text-3xl font-bold">{applicant.name}</h1>
             <p className="text-gray-600">{applicant.email}</p>
         </div>
-        <div className="flex flex-col mb-4">
-  <label htmlFor="status" className="text-sm font-medium text-gray-700 mb-1">Status</label>
-  <select
-    id="status"
-    className="border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring focus:border-blue-500"
-    value={status}
-    onChange={(e) => setStatus(e.target.value)}
-  >
-    <option value="" disabled>Select status</option>
-    <option value="pending">Pending</option>
-    <option value="interview">Interview</option>
-    <option value="rejected">Rejected</option>
-  </select>
-</div>
+        {
+  applicantStatus === 'pending' ? (
+    <div className="flex flex-col mb-4">
+      <label htmlFor="status" className="text-sm font-medium text-gray-700 mb-1">Status</label>
+      <select
+        id="status"
+        className="border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring focus:border-blue-500"
+        value={status}
+        onChange={(e) => setStatus(e.target.value)}
+      >
+        <option value="" disabled>Select status</option>
+        <option value="pending">Pending</option>
+        <option value="interview">Interview</option>
+        <option value="rejected">Rejected</option>
+      </select>
+    </div>
+  ) : (
+    <>
+  {applicantStatus === 'interview' && (
+    <div className="flex items-center mb-2">
+      <span className="text-sm text-green-500">{applicantStatus}</span>
+    </div>
+  )}
+  {applicantStatus === 'rejected' && (
+    <div className="flex items-center mb-2">
+      <span className="text-sm text-red-500">{applicantStatus}</span>
+    </div>
+  )}
+</>
 
+
+  )
+}
+
+        
     
     </div>
 </div>
