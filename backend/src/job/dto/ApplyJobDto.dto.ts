@@ -12,17 +12,6 @@ export class ApplyJobDto {
 
     @IsNotEmpty()
     @IsString()
-    fieldOfStudy: string;
-
-    @IsNotEmpty()
-    @IsString()
-    location: string;
-
-    @IsNotEmpty()
-    @IsString()
     resume: string;
 
-    @IsNotEmpty()
-    @IsString()
-    name: string;
 }

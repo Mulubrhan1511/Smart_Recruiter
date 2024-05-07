@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { JobService } from './job.service';
 import { CreateJobDto } from './dto/CreateJob.dto';
 import { create } from 'domain';
@@ -44,5 +44,13 @@ export class JobController {
   getApplyJob(@Param('id') id: string){
     return this.jobService.getApplyJob(id);
   }
+
+  @Patch(':id')
+  @UsePipes(new ValidationPipe())
+  updateJob(@Body() createJobDto: CreateJobDto, @Param('id') id:string){
+    return this.jobService.updateJob(createJobDto, id);
+  }
+
+  
 
 }

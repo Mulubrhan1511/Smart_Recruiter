@@ -65,9 +65,7 @@ export class JobService {
             user: user._id,
             status: 'pending',
             resume: applyJobDto.resume,
-            fieldOfStudy: applyJobDto.fieldOfStudy,
-            location: applyJobDto.location,
-            name: applyJobDto.name,
+            
         });
     
         // Update the job document in the database
@@ -180,6 +178,28 @@ export class JobService {
         return jobs;
     }
     
-       
-        
+    async updateJob(createJobDto: CreateJobDto, id: string): Promise<any> {
+        if (id.length !== 24) {
+            return "Invalid job ID";
+        }
+    
+        const job = await this.jobModel.findById(id);
+        if (!job) {
+            return "Job not found";
+        }
+        job.title = createJobDto.title;
+        job.description = createJobDto.description;
+        job.location = createJobDto.location;
+        job.salary = createJobDto.salary;
+        job.company = createJobDto.company;
+        job.experience = createJobDto.experience;
+        job.skills = createJobDto.skills;
+        job.expiryDate = createJobDto.expiryDate;
+        job.type = createJobDto.type;
+        job.totalApplicants = createJobDto.totalApplicants;
+
+        await job.save();
+    
+        return job;
+    }
 }

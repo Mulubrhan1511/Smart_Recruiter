@@ -40,18 +40,14 @@ export class Job extends Document {
   @Prop([{
     user: { type: Types.ObjectId, ref: 'User' }, // Use Types.ObjectId here
     status: { type: String, enum: ['pending', 'interview', 'rejected'], default: 'pending' },
-    fieldOfStudy: String,
-    location: String,
     resume: String,
-    name: String
+    
   }])
   applicants: {
     user: Types.ObjectId;
     status: string;
     resume: string;
-    fieldOfStudy: String;
-    location: String;
-    name: String;
+    
   }[];
 }
 
