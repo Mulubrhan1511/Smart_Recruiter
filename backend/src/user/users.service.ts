@@ -143,7 +143,7 @@ export class UsersService {
             if (error) {
                 console.log('Error sending email:', error);
             } else {
-                console.log('Email sent:', info.response);
+                
             }
         });
 
