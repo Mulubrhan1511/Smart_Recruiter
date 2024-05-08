@@ -10,7 +10,7 @@ import { ForgotPasswordMiddleware } from './middleware/forgotpassword.middleware
 @Module({
   
   imports: [
-    MongooseModule.forRoot("mongodb+srv://mulubrhan:mula151121@cluster0.whskfru.mongodb.net/smartrecruit?retryWrites=true&w=majority"), // Use the MONGOURI environment variable
+    MongooseModule.forRoot(process.env.MONGOURI), // Use the MONGOURI environment variable
     UsersModule,
     JobModule,
     ConfigModule.forRoot({ envFilePath: '.env' }), // Specify the .env file path here
@@ -51,5 +51,3 @@ export class AppModule implements NestModule {
       );
   }
 }
-
-
