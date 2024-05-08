@@ -9,7 +9,7 @@ import { ForgotPasswordMiddleware } from './middleware/forgotpassword.middleware
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://127.0.0.1/nest'),
+    MongooseModule.forRoot(process.env.MONGOURI), // Use the MONGOURI environment variable
     UsersModule,
     JobModule,
     ConfigModule.forRoot({ envFilePath: '.env' }), // Specify the .env file path here
