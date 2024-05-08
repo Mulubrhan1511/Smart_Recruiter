@@ -33,7 +33,12 @@ export const HrEditProfile = () => {
       };
 
     useEffect(() => {
-        axios.get(`/api/users/${user._id}`)
+        token = localStorage.getItem('jwt');
+        axios.get(`/api/users/${user._id}`,
+            { headers: {
+                Authorization: `Bearer ${token}`
+              }}
+        )
             .then((response) => {
                 setEmail(response.data.email);
                 setName(response.data.name);

@@ -27,6 +27,7 @@ export const Jobs = () => {
       
       <div className='flex-1  left-0 py-8  lg:px-72'>
       {filteredJobs.map(job => (
+        
   <a href={'/detailjob/' + job._id} key={job._id}>
     <div className="bg-white shadow-md p-4 rounded-lg mb-4 flex items-center justify-between">
       <div>
@@ -36,12 +37,13 @@ export const Jobs = () => {
         <p className="text-sm text-gray-700">{job.description}</p>
       </div>
       {user && (
-    job.applicants.map(applicant => (
-        user._id === applicant.user && (
-            <span className="bg-blue-500 text-white px-2 py-1 rounded-md">Applied</span>
-        )
-    ))
+  job.applicants.map(applicant => (
+    user._id === applicant.user && (
+      <span key={applicant._id} className="bg-blue-500 text-white px-2 py-1 rounded-md">Applied</span>
+    )
+  ))
 )}
+
 
       
       

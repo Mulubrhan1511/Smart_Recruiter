@@ -96,11 +96,25 @@ export const DetailJob = () => {
             <h1 className="text-3xl font-bold">{job.title}</h1>
             <p className="text-gray-600">{job.company}</p>
         </div>
-        {user && job.applicants.some(applicant => applicant.user === user._id) ? (
+        {
+            user ? (
+                <>
+                {user && job.applicants.some(applicant => applicant.user === user._id) ? (
     <span className="bg-green-500 text-white px-2 py-1 rounded-md">Applied</span>
 ) : (
     <button className="bg-blue-500 text-white py-2 px-4 rounded-md" onClick={apply}>Apply</button>
 )}
+                </>
+            ):(
+                <>
+                <a href="/login">
+  <button className="bg-blue-500 text-white py-2 px-4 rounded-md">Apply</button>
+</a>
+
+                </>
+            )
+        }
+        
 
 
     </div>

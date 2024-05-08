@@ -12,8 +12,8 @@ const initialExperienceList = [
 ];
 
 const initialJobTypesList = [
-  { id: 4, type: 'fulltime', seen: false },
-  { id: 5, type: 'parttime', seen: false },
+  { id: 4, type: 'full-time', seen: false },
+  { id: 5, type: 'part-time', seen: false },
   { id: 6, type: 'remote', seen: false },
   { id: 7, type: 'permanent', seen: false },
 ];

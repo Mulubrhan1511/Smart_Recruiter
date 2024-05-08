@@ -39,7 +39,7 @@ export const HrApplicantDetails = () => {
       // Set resume if applicant is found
       setResume(foundApplicant.resume);
       setApplicantStatus(foundApplicant.status);
-      console.log(foundApplicant.status);
+      
     } else {
       
     }
@@ -72,7 +72,8 @@ export const HrApplicantDetails = () => {
         }
       })
       .then((response) => {
-       
+       setApplicantStatus('interview');
+       setStatus('')
       })
       .catch((error) => {
         console.error('Error scheduling interview:', error);
@@ -90,7 +91,8 @@ export const HrApplicantDetails = () => {
       })
       .then((response) => {
         setJob(response.data);
-        
+        setApplicantStatus('rejected');
+        setStatus('')
       })
       .catch((error) => {
         console.error('Error rejecting applicant:', error);

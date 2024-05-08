@@ -8,7 +8,9 @@ export const ApplicationStatus = () => {
     const user = JSON.parse(localStorage.getItem('user'));
 
     useEffect(() => {
-        axios.get(`/api/jobs/getapplyjob/${user._id}`)
+        axios.get(`/api/jobs/getapplyjob/${user._id}`,
+            { headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` } }
+        )
             .then((response) => {
                 setJobs(response.data);
                  // Ensure you're getting the expected data

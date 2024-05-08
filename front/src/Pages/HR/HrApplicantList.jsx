@@ -92,7 +92,7 @@ export const HrApplicantList = () => {
               </td>
             ) : (
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <a href={`/applicantlistdetail/${user._id}/${jobId}`} className="text-indigo-600 hover:text-indigo-900">Show</a>
+                <a href={`/applicantlistdetail/${applicant.user}/${jobId}`} className="text-indigo-600 hover:text-indigo-900">Show</a>
               </td>
             )}
           </tr>
