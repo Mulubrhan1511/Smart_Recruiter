@@ -77,14 +77,14 @@ export class UsersController{
     @Post('forgot-password')
     @UsePipes(new ValidationPipe())
     forgotPassword(@Body() body: { email: string }) {
-        const { email } = body; // Extract email from the request body object
+        const { email } = body; 
         return this.userService.forgotPassword(email);
     }
 
     @Post('checkverfication')
     @UsePipes(new ValidationPipe())
     checkVerification(@Body() body: { email: string, code: string }) {
-        const { email, code } = body; // Extract email and code from the request body object
+        const { email, code } = body; 
         return this.userService.checkVerification(email, code);
     }
 

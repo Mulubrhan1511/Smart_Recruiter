@@ -1,6 +1,6 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose'; // Import only Document
-import { Types } from 'mongoose'; // Import Types separately
+import { Document } from 'mongoose';
+import { Types } from 'mongoose';
 
 @Schema()
 export class Job extends Document {
@@ -10,7 +10,7 @@ export class Job extends Document {
   @Prop({ required: true })
   description: string;
 
-  @Prop({ type: [String], default: [] }) // Define it as an array of strings
+  @Prop({ type: [String], default: [] })
   skills: string[];
 
   @Prop({ required: true })
@@ -34,11 +34,11 @@ export class Job extends Document {
   @Prop({ required: true })
   expiryDate: Date;
 
-  @Prop(String) // Array of strings representing job experience
+  @Prop(String)
   experience: string;
 
   @Prop([{
-    user: { type: Types.ObjectId, ref: 'User' }, // Use Types.ObjectId here
+    user: { type: Types.ObjectId, ref: 'User' },
     status: { type: String, enum: ['pending', 'interview', 'rejected'], default: 'pending' },
     resume: String,
     

@@ -28,8 +28,8 @@ export class User {
         fieldOfStudy: String, 
         location: String, 
         university: String,
-        skills: [String], // Changed to array of strings
-        experience: String, // Changed to string
+        skills: [String], 
+        experience: String,
     }])
     profile: { 
         fieldOfStudy: string,
@@ -42,7 +42,7 @@ export class User {
     @Prop({required: false})
     forgotVerificationCode: string;
 
-    // Additional properties can be added here if needed
+    
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

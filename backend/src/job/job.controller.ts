@@ -33,9 +33,9 @@ export class JobController {
     return this.jobService.approveUser(userApprovalDto);
   }
 
-  @Post('getjobs/:id') // Define the parameter in the route URL
+  @Post('getjobs/:id') 
   @UsePipes(new ValidationPipe())
-  getJobs(@Param('id') id: string){ // Use @Param() instead of @Body()
+  getJobs(@Param('id') id: string){ 
     return this.jobService.getJobById(id);
   }
 

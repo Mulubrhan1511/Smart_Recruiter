@@ -12,7 +12,7 @@ export class ForgotPasswordMiddleware implements NestMiddleware {
     
     async use(req: Request, res: Response, next: NextFunction) {
         const {authorization} = req.headers
-        //authorization === Bearer then token
+        
         if(!authorization){
             return res.status(401).json({error:"YOU must logged in"})
         }
@@ -25,7 +25,7 @@ export class ForgotPasswordMiddleware implements NestMiddleware {
         
         try {
 
-            const loginToken = this.configService.get<string>('forgot_password_token'); // Retrieve login_token from .env
+            const loginToken = this.configService.get<string>('forgot_password_token'); 
             
             
             const payload = jwt.verify(token, loginToken) as { userId: string, exp: number };

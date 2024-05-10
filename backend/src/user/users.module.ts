@@ -14,7 +14,7 @@ import { ConfigModule } from '@nestjs/config';
                 schema: UserSchema,
             }
         ]),
-        ConfigModule.forRoot(), // Import ConfigModule here
+        ConfigModule.forRoot(),
     ],
     providers: [UsersService, RequiredLoginMiddleware],
     controllers:[UsersController],

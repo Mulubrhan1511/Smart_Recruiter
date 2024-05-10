@@ -20,7 +20,7 @@ export class JobService {
     ) {}
 
     findAll() {
-        // Sort by the 'date' field in descending order
+        
         return this.jobModel.find().sort({ date: -1 });
     }
        
@@ -38,7 +38,7 @@ export class JobService {
             return "Invalid job ID";
         }
     
-        // Find the job by its ID
+        
         const job = await this.jobModel.findById(applyJobDto.id);
         if (!job) {
             return "Job not found";
@@ -54,13 +54,13 @@ export class JobService {
             return "Invalid user ID";
         }
     
-        // Find the user by ID
+        
         const user = await this.userService.getUserById(applyJobDto.userId);
         if (!user) {
             return "User not found";
         }
     
-        // Add the application details to the job
+        
         job.applicants.push({
             user: user._id,
             status: 'pending',
@@ -68,7 +68,7 @@ export class JobService {
             
         });
     
-        // Update the job document in the database
+        
         await job.save();
     
         return "Application submitted successfully";
@@ -80,31 +80,31 @@ export class JobService {
             return "Invalid job ID or user ID";
         }
     
-        // Find the job by its ID
+        
         const job = await this.jobModel.findById(userApprovalDto.jobId);
     
         if (!job) {
             return "Job not found";
         }
         
-        // Find the user by its ID
+        
         const user = await this.userService.getUserById(userApprovalDto.userId);
     
         if (!user) {
             return "User not found";
         }
     
-        // Find the applicant in the job's applicants array
+        
         const applicant = job.applicants.find(applicant => applicant.user.equals(user._id));
         if (!applicant) {
             return "User has not applied for this job";
         }
     
-        // Update the status and reason of the applicant
+        
         applicant.status = userApprovalDto.status;
     
-        const my_email = this.configService.get<string>('my_email'); // Retrieve login_token from .env
-        const pass = this.configService.get<string>('password'); // Retrieve login_token from .env
+        const my_email = this.configService.get<string>('my_email'); 
+        const pass = this.configService.get<string>('password'); 
 
         const transporter = nodemailer.createTransport({
                 service: 'gmail',
@@ -116,7 +116,7 @@ export class JobService {
     
         let mailOptions;
         if (userApprovalDto.status === 'interview') {
-            // Email template for interview invitation
+            
             mailOptions = {
                 from: my_email,
                 to: user.email,
@@ -129,7 +129,7 @@ export class JobService {
                     `<p>We look forward to meeting you!</p>`
             };
         } else {
-            // Email template for rejection notification
+            
             mailOptions = {
                 from: my_email,
                 to: user.email,
@@ -164,13 +164,13 @@ export class JobService {
     } 
 
     async getApplyJob(userId: string): Promise<any> {
-        // First, ensure the user exists
+        
         const user = await this.userService.getUserById(userId);
         if (!user) {
             return "User not found";
         }
     
-        // Now, find jobs where the applicants array contains the user's ID
+        
         const jobs = await this.jobModel.find({
             "applicants.user": user._id
         });

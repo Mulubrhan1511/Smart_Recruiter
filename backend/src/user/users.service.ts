@@ -21,39 +21,39 @@ import { UpdateProfileDto } from "./dto/UpdateProfileDto.dto";
 export class UsersService {
     constructor(
         @InjectModel(User.name) private userModel: Model<User>,
-        private readonly configService: ConfigService, // Inject ConfigService
+        private readonly configService: ConfigService, 
     ) {}
     
    
 
     async createUser(createUserDto: CreateUserDto): Promise<any> {
-        // Check if the email already exists
+       
         const existingUser = await this.userModel.findOne({ email: createUserDto.email }).exec();
         if (existingUser) {
             return false;
         }
 
-        // Generate a verification code
+        
         const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
 
-        // Hash the verification code (optional)
+        
         const hashedVerificationCode = await bcrypt.hash(verificationCode, 10);
 
-        // Hash the password with 10 rounds of salt
+        
         const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
 
-        // Create a new user object with the hashed password and verification code
+        
         const newUser = new this.userModel({
             ...createUserDto,
             password: hashedPassword,
             verificationCode: hashedVerificationCode
         });
 
-        // Save the new user to the database
+        
         await newUser.save();
 
-        const my_email = this.configService.get<string>('my_email'); // Retrieve login_token from .env
-        const pass = this.configService.get<string>('password'); // Retrieve login_token from .env
+        const my_email = this.configService.get<string>('my_email'); 
+        const pass = this.configService.get<string>('password'); 
 
         const transporter = nodemailer.createTransport({
                 service: 'gmail',
@@ -84,26 +84,25 @@ export class UsersService {
             }
         });
 
-        // Return the newly created user
+        
         return newUser;
     }
     async createHr(createUserDto: CreateUserDto): Promise<any> {
-        // Check if the email already exists
+        
         const existingUser = await this.userModel.findOne({ email: createUserDto.email }).exec();
         if (existingUser) {
             return false;
         }
 
-        // Generate a verification code
+        
         const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
 
-        // Hash the verification code (optional)
+        
         const hashedVerificationCode = await bcrypt.hash(verificationCode, 10);
 
-        // Hash the password with 10 rounds of salt
+        
         const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
 
-        // Create a new user object with the hashed password and verification code
         const newUser = new this.userModel({
             ...createUserDto,
             password: hashedPassword,
@@ -111,12 +110,12 @@ export class UsersService {
             type:'admin'
         });
 
-        // Save the new user to the database
+        
         await newUser.save();
 
-        // Send email with verification code to the new user
-        const my_email = this.configService.get<string>('my_email'); // Retrieve login_token from .env
-        const pass = this.configService.get<string>('password'); // Retrieve login_token from .env
+        
+        const my_email = this.configService.get<string>('my_email'); 
+        const pass = this.configService.get<string>('password'); 
 
         const transporter = nodemailer.createTransport({
                 service: 'gmail',
@@ -147,7 +146,7 @@ export class UsersService {
             }
         });
 
-        // Return the newly created user
+        
         return newUser;
     }
 
@@ -156,25 +155,25 @@ export class UsersService {
         const user = await this.userModel.findOne({ email: SiginUserDto.email }).exec();
         
         if (!user) {
-            // User not found, return false or throw an error
+            
             return false;
         }
     
-        // Compare passwords
+        
         const domatch = await bcrypt.compare(SiginUserDto.password, user.password);
     
         if (!domatch) {
-            // Passwords don't match, return false or throw an error
+            
             return false;
         }
     
-        // Generate JWT token
-        const loginToken = this.configService.get<string>('login_token'); // Retrieve login_token from .env
+        
+        const loginToken = this.configService.get<string>('login_token'); 
         const token = jwt.sign({ _id: user._id }, loginToken);
     
         const { _id, email, name, verified, type, profile, avatarUrl } = user;
     
-        // Return user and token
+        
         return { user: { _id,email, name, verified, type, profile, avatarUrl }, token };
     }
 
