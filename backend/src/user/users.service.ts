@@ -172,10 +172,10 @@ export class UsersService {
         const loginToken = this.configService.get<string>('login_token'); // Retrieve login_token from .env
         const token = jwt.sign({ _id: user._id }, loginToken);
     
-        const { _id, email, name, verified, type, profile } = user;
+        const { _id, email, name, verified, type, profile, avatarUrl } = user;
     
         // Return user and token
-        return { user: { _id,email, name, verified, type, profile }, token };
+        return { user: { _id,email, name, verified, type, profile, avatarUrl }, token };
     }
 
     async verify(verifyUser: VerfyUserDto) {
@@ -206,13 +206,14 @@ export class UsersService {
         getUserByEmail(email: string){
             return this.userModel.findOne({email: email})
         }
-        async getJobById(id: string): Promise<any> {
+        async getUserByIdDetial(id: string): Promise<any> {
             const job = await this.userModel.findById(id);
             if (!job) {
                 return "Job not found";
             }
+            const { password, verificationCode,  ...userwithout } = job.toObject();
         
-            return job;
+            return userwithout;
         }  
 
         async profile(userProfilesDto:UserProfilesDto, id: string){
@@ -228,17 +229,26 @@ export class UsersService {
             if (!user) {
                 throw new HttpException('User not found', HttpStatus.NOT_FOUND);
             }
-    
+        
             // Update user profile fields
             user.profile = {
                 ...user.profile,
                 ...updateUser,
             };
-    
+        
+            if (updateUser.avatarUrl) {
+                user.avatarUrl = updateUser.avatarUrl;
+            }
+        
             // Save the updated user
             const updatedUser = await user.save();
-            return updatedUser;
+        
+            // Exclude the password field from the returned user object
+            const { password, verificationCode,  ...userWithoutPassword } = updatedUser.toObject();
+        
+            return userWithoutPassword;
         }
+        
 
         deleteUser(id: string){
             return this.userModel.findByIdAndDelete(id);
@@ -267,6 +277,7 @@ export class UsersService {
 
             const my_email = this.configService.get<string>('my_email'); // Retrieve login_token from .env
             const pass = this.configService.get<string>('password'); // Retrieve login_token from .env
+            
 
             const transporter = nodemailer.createTransport({
                 service: 'gmail',

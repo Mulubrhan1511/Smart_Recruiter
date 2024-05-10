@@ -9,6 +9,9 @@ export class UpdateProfileDto {
     @IsNotEmpty()
     name: string;
 
+    @IsString()
+    @IsOptional()
+    avatarUrl: string;
 
     @IsString()
     fieldOfStudy: string;
@@ -24,6 +27,8 @@ export class UpdateProfileDto {
 
     @IsString()
     experience: string;
+
+    
 
     
 }

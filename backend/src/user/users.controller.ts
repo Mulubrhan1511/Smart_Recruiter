@@ -42,7 +42,7 @@ export class UsersController{
     @Get(':id')
     @UsePipes(new ValidationPipe())
     getUserById(@Param('id') id: string){
-        return this.userService.getJobById(id);
+        return this.userService.getUserByIdDetial(id);
     }
 
     @Patch(':id')
