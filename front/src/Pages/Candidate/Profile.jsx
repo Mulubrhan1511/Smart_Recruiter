@@ -8,18 +8,18 @@ export const ProfileForm = () => {
     experience: '',
     university: ''
   });
-  const [tags, setTags] = useState([]); // State to store tags
-  const [inputValue, setInputValue] = useState(''); // State to store input value
+  const [tags, setTags] = useState([]);
+  const [inputValue, setInputValue] = useState(''); 
   const user = JSON.parse(localStorage.getItem('user'));
 
-  const [isFormSubmitted, setIsFormSubmitted] = useState(false); // State to track form submission
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
 
   const handleInputKeyDown = (e) => {
     if (e.key === 'Enter' && inputValue) {
-      e.preventDefault(); // Prevent form submission
+      e.preventDefault(); 
       setTags([...tags, inputValue.trim()]);
       setInputValue('');
     }
@@ -39,18 +39,18 @@ export const ProfileForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
   
-    // Check if any field is empty
+   
     if (
       !formData.location.trim() ||
       !formData.fieldOfStudy.trim() ||
       !formData.experience.trim() ||
       !formData.university.trim()
     ) {
-      setIsFormSubmitted(true); // Set form submitted to true
-      return; // Prevent form submission
+      setIsFormSubmitted(true); 
+      return; 
     }
   
-    // Handle form submission, e.g., send data to backend
+    
     axios
       .post(`/api/users/profile/${user._id}`, {
         ...formData,
@@ -68,7 +68,7 @@ export const ProfileForm = () => {
             verified: true,
             profile: response.data.user.profile
           }));
-          // Reset form fields after submission
+          
           setFormData({
             location: '',
             fieldOfStudy: '',
@@ -77,9 +77,9 @@ export const ProfileForm = () => {
           });
           setTags([]);
           setInputValue('');
-          // Reset form submission state
+          
           setIsFormSubmitted(false);
-          // Redirect to home page
+         
           window.location.href = '/';
         } else {
           

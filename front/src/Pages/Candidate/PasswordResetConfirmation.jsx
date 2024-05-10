@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Navbar } from '../../Components/Candidate/Navbar';
-import { ResetPassword } from './ResetPassword'; // Import ResetPassword component
+import { ResetPassword } from './ResetPassword';
 
 const PasswordResetConfirmation = ({ email }) => {
     const [verification, setVerification] = useState('');
     const [resetInitiated, setResetInitiated] = useState(false);
     const [error, setError] = useState('');
-    const [countdown, setCountdown] = useState(120); // Initial countdown time in seconds (2 minutes)
+    const [countdown, setCountdown] = useState(120); 
 
     useEffect(() => {
-        // Start the countdown timer when the component mounts
+        
         const timer = setInterval(() => {
-            setCountdown(prevCountdown => prevCountdown - 1); // Decrease countdown by 1 second
+            setCountdown(prevCountdown => prevCountdown - 1);
         }, 1000);
 
-        // Clear the timer when the component unmounts
+        
         return () => clearInterval(timer);
     }, []);
 
@@ -43,7 +43,7 @@ const PasswordResetConfirmation = ({ email }) => {
 
     return (
         <>
-            {resetInitiated ? ( // If password reset is initiated, render the ResetPassword component
+            {resetInitiated ? (
                 <ResetPassword email={email} />
             ) : (
                 <div>

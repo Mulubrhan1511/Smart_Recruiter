@@ -12,7 +12,7 @@ export const Verfication = () => {
       setError('Invalid verification code');
       return;
     }
-    // Add your verification logic here, e.g., sending the code to the server for validation
+   
     axios.post('api/users/verify', { verificationCode, id: user._id },{
       headers: {
         Authorization: `Bearer ${localStorage.getItem('jwt')}`

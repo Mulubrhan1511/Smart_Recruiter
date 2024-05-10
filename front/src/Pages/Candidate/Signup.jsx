@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import axios from 'axios'; // Import the axios library
+import axios from 'axios';
 import { Navbar } from '../../Components/Candidate/Navbar';
 export const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  const [error, setError] = useState(''); // Add this line
-  const [success, setSuccess] = useState(''); // Add this line
+  const [error, setError] = useState(''); 
+  const [success, setSuccess] = useState('');
 
   const signup = (event) => {
-    event.preventDefault(); // Prevent form submission and page reload
+    event.preventDefault(); 
     if (email === '' || password === '' || name === '') {
       setError('Please fill in all fields');
     } else {

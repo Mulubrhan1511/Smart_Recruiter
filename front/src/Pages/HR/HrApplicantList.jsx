@@ -26,7 +26,7 @@ export const HrApplicantList = () => {
       });
   }, [jobId]);
 
-  // Function to get user by user ID
+  
   const getUserById = (userId) => {
     
     return users.find(user => user._id === userId);

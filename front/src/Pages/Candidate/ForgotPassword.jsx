@@ -1,14 +1,13 @@
-// ForgotPassword.js
 import React, { useState } from 'react';
 
 import axios from 'axios';
-import PasswordResetConfirmation from './PasswordResetConfirmation'; // Import the confirmation page
+import PasswordResetConfirmation from './PasswordResetConfirmation'; 
 
 export const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
-  const [resetInitiated, setResetInitiated] = useState(false); // State to track if password reset is initiated
+  const [resetInitiated, setResetInitiated] = useState(false); 
   
 
   const handleSubmit = async (event) => {
@@ -18,7 +17,7 @@ export const ForgotPassword = () => {
       const response = await axios.post('/api/users/forgot-password', { email });
       
       localStorage.setItem("jwt",response.data)
-      // Set the resetInitiated state to true
+      
       setResetInitiated(true);
     } catch (error) {
       setMessage('');
@@ -29,7 +28,7 @@ export const ForgotPassword = () => {
 
   return (
     <div>
-      {resetInitiated ? ( // If password reset is initiated, render the confirmation page
+      {resetInitiated ? (
         <PasswordResetConfirmation email={email} />
       ) : (
         <div className="min-h-screen flex items-center justify-center bg-gray-50">

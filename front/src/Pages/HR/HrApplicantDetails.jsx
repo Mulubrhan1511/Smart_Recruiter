@@ -27,16 +27,16 @@ export const HrApplicantDetails = () => {
   
     axios.post(`/api/jobs/getjobs/${jobId}`)
   .then((response) => {
-    // Logging the response data
     
     
-    // Set job details
+    
+    
     setJob(response.data);
 
-    // Find the applicant
+    
     const foundApplicant = response.data.applicants.find(applicant => applicant.user === userId);
     if (foundApplicant) {
-      // Set resume if applicant is found
+      
       setResume(foundApplicant.resume);
       setApplicantStatus(foundApplicant.status);
       
@@ -51,7 +51,7 @@ export const HrApplicantDetails = () => {
 
     axios.get(`/api/users/${userId}`)
       .then((response) => {
-        setApplicant(response.data) // Logging the response data
+        setApplicant(response.data) 
         
         setApplicantDetail(response.data.profile[0]);
       })
@@ -117,9 +117,9 @@ export const HrApplicantDetails = () => {
         <div>
         <div className="flex-shrink-0 h-20 w-20">
         <img 
-            src={applicant.avatarUrl} // Assuming avatarUrl contains the URL of the applicant's image
-            alt={applicant.name} // Alt text for accessibility
-            className="h-full w-full object-cover rounded-full" // Responsive styling
+            src={applicant.avatarUrl} 
+            alt={applicant.name} 
+            className="h-full w-full object-cover rounded-full"
         />
     </div>
             <h1 className="text-3xl font-bold">{applicant.name}</h1>

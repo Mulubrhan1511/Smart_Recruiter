@@ -9,7 +9,7 @@ export const EditProfile = () => {
     const [avatarUrl, setAvatarUrl] = useState('');
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(null);
-    const [isFormSubmitted, setIsFormSubmitted] = useState(false); // State to track form submission
+    const [isFormSubmitted, setIsFormSubmitted] = useState(false);
     const [tags, setTags] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [location, setLocation] = useState('');
@@ -23,7 +23,7 @@ export const EditProfile = () => {
     
       const handleInputKeyDown = (e) => {
         if (e.key === 'Enter' && inputValue) {
-          e.preventDefault(); // Prevent form submission
+          e.preventDefault(); 
           setTags([...tags, inputValue.trim()]);
           setInputValue('');
         }
@@ -44,7 +44,7 @@ export const EditProfile = () => {
                 setFieldOfStudy(response.data.profile[0].fieldOfStudy);
                 setExperience(response.data.profile[0].experience);
                 setTags(response.data.profile[0].skills);
-                setAvatarUrl(response.data.avatarUrl) // Set tags to the skills array if it exists
+                setAvatarUrl(response.data.avatarUrl)
             })
             .catch((error) => {
                 console.error('Error fetching user data:', error);
@@ -52,7 +52,7 @@ export const EditProfile = () => {
     }, []);
 
     const handleImageChange = (e) => {
-        setImage(e.target.files[0]); // Set the selected image file
+        setImage(e.target.files[0]); 
     };
 
     const handleImageUpload = () => {
@@ -62,16 +62,16 @@ export const EditProfile = () => {
         formData.append('upload_preset', 'insta-clone');
         formData.append("cloud_name","dhw1mueq4");
     
-        // Return the promise directly
+        
         return axios.post('https://api.cloudinary.com/v1_1/dhw1mueq4/image/upload', formData)
             .then(response => {
                 
                 setAvatarUrl(response.data.url);
-                return response.data.url; // Indicate success
+                return response.data.url; 
             })
             .catch(error => {
                 console.error('Error uploading image:', error);
-                throw error; // Throw error for handling in the calling function
+                throw error; 
             });
     };
     
@@ -97,16 +97,16 @@ export const EditProfile = () => {
                 localStorage.setItem("user", JSON.stringify(response.data));
                 setSuccess(true);
                 setIsFormSubmitted(false);
-                setTimeout(() => setSuccess(false), 3000); // Hide success message after 3 seconds
+                setTimeout(() => setSuccess(false), 3000); 
             })
             .catch(error => {
                 console.error('Error updating profile:', error);
                 setError('An error occurred. Please try again.');
                 setIsFormSubmitted(false);
-                setTimeout(() => setError(null), 3000); // Hide error message after 3 seconds
+                setTimeout(() => setError(null), 3000); 
             });
         }
-        // Call handleImageUpload and chain the promise
+        
         else{
             
             handleImageUpload()
@@ -198,7 +198,7 @@ export const EditProfile = () => {
                             placeholder="Email" 
                             value={email} 
                             onChange={(e) => setEmail(e.target.value)} 
-                            disabled={Boolean(user)} // Disable the field if user data is available
+                            disabled={Boolean(user)}
                         />
 
                     </div>

@@ -47,7 +47,7 @@ export const HrNewUser = () => {
       return;
     }
 
-    // Add your signup logic here
+
     axios.post('/api/users/newhr', formData,{ headers: {
       Authorization: `Bearer ${token}`
     }})

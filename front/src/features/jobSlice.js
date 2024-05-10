@@ -39,7 +39,7 @@ const jobSlice = createSlice({
   },
 });
 
-// Helper function to check if the date falls within the selected range
+
 const dateIncludes = (jobDate, selectedDates) => {
   const today = new Date();
   const thisWeekStart = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());

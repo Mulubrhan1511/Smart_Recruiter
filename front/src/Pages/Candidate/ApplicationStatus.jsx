@@ -13,7 +13,7 @@ export const ApplicationStatus = () => {
         )
             .then((response) => {
                 setJobs(response.data);
-                 // Ensure you're getting the expected data
+                
             })
             .catch((error) => {
                 
@@ -50,7 +50,7 @@ export const ApplicationStatus = () => {
             )}
         </div>
     ) : (
-        // You can add a loading indicator or any other appropriate component here
+       
         <p>Loading...</p>
     )
 }

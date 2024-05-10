@@ -10,13 +10,13 @@ export const DetailJob = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     const [applied, setApplied] = useState(false);
     const [resume, setResume] = useState('');
-    const [isValid, setIsValid] = useState(false); // Initially set to false as it's empty// Initially set to true as it's empty
-    const [showerror, setShowError] = useState(false); // Initially set to false as it's empty
+    const [isValid, setIsValid] = useState(false); 
+    const [showerror, setShowError] = useState(false);
     const handleInputChange = (event) => {
         const value = event.target.value;
         setResume(value);
         const wordCount = value.trim().split(/\s+/).length;
-        setIsValid(wordCount > 50); // Check if the word count is more than 50
+        setIsValid(wordCount > 50);
     };
     
     
@@ -38,11 +38,11 @@ export const DetailJob = () => {
         setApplied(true);
     }
     const submit = () => {
-        // Check if the resume is valid
+        
         if (!isValid) {
-            // Show error message
+            
             setShowError(true);
-            return; // Do not send the request if the resume is not valid
+            return; 
         }
     
         const token = localStorage.getItem('jwt');
@@ -62,8 +62,7 @@ export const DetailJob = () => {
         })
         .then((response) => {
            
-            setApplied(false); // Set applied to true after successful application
-            // Fetch the updated job details after applying
+            setApplied(false); 
             axios.post(`/api/jobs/getjobs/${jobId}`)
                 .then((response) => {
                     setJob(response.data);

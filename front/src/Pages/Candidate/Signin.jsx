@@ -10,7 +10,7 @@ export const Signin = () => {
 
   
   const handleSubmit = (event) => {
-    event.preventDefault(); // Prevent form submission and page reload
+    event.preventDefault(); 
     if (email === '' || password === '') {
       
     } else {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { filterJobs } from "../../features/jobSlice";
 
-// Initial data
+
 const initialTitlesList = [
   { id: 0, title: 'Frontend Developer', seen: false },
   { id: 1, title: 'Backend Developer', seen: false },

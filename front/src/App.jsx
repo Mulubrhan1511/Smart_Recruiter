@@ -22,7 +22,7 @@ function App() {
   const user = JSON.parse(localStorage.getItem("user"));
 
 
-  // Conditionally render different sets of routes based on user existence and verification
+
   let routesToRender;
   if (user) {
     if (user.verified) {
@@ -67,11 +67,11 @@ function App() {
         
       
       
-      // Render routes for verified user
+     
       
       
     } else {
-      // Render route for unverified user
+      
       routesToRender =
       <>
       <Route path='/verification' element={<Verfication/>} />
@@ -79,7 +79,7 @@ function App() {
       </> 
     }
   } else {
-    // Render routes for non-existent user
+   
     routesToRender = (
       <>
         <Route path='/' element={<Home />} />

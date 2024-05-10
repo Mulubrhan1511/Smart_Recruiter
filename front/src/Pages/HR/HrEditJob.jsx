@@ -32,10 +32,10 @@ export const HrEditJob = () => {
             setType(response.data.type);
             setTags(response.data.skills);
             setTotalApplicants(response.data.totalApplicants);
-           // Assuming response.data.expiryDate is "2024-06-04T08:00:00.000Z"
+           
             const isoDate = response.data.expiryDate;
-            const dateOnly = isoDate.split('T')[0]; // Extracting the date part
-            setExpiryDate(dateOnly); // Setting the date in the required format
+            const dateOnly = isoDate.split('T')[0]; 
+            setExpiryDate(dateOnly);
 
             setExperience(response.data.experience);
             
@@ -71,7 +71,7 @@ export const HrEditJob = () => {
 
   const handleInputKeyDown = (e) => {
     if (e.key === 'Enter' && inputValue) {
-      e.preventDefault(); // Prevent form submission
+      e.preventDefault(); 
       setTags([...tags, inputValue.trim()]);
       setInputValue('');
     }
@@ -82,7 +82,7 @@ export const HrEditJob = () => {
   };
 
   const submit = () => {
-    setIsFormSubmitted(true); // Set form submitted to true
+    setIsFormSubmitted(true);
     if (
       !title.trim() ||
       !description.trim() ||
@@ -91,9 +91,9 @@ export const HrEditJob = () => {
       !salary.trim() ||
       totalApplicants <= 0 ||
       !expiryDate.trim() ||
-      !experience.trim() // Check if experience is selected
+      !experience.trim() 
     ) {
-      setError('Please fill out all fields.'); // Set error message
+      setError('Please fill out all fields.');
       return;
     }
   
@@ -110,7 +110,7 @@ export const HrEditJob = () => {
         skills: tags,
         totalApplicants: totalApplicants,
         expiryDate: expiryDate,
-        experience: experience, // Include experience in the request payload
+        experience: experience,
       }, {
         headers: {
           Authorization: `Bearer ${token}`
@@ -126,10 +126,10 @@ export const HrEditJob = () => {
         setType(response.data.type);
         setTags(response.data.skills);
         setTotalApplicants(response.data.totalApplicants);
-       // Assuming response.data.expiryDate is "2024-06-04T08:00:00.000Z"
+       
         const isoDate = response.data.expiryDate;
-        const dateOnly = isoDate.split('T')[0]; // Extracting the date part
-        setExpiryDate(dateOnly); // Setting the date in the required format
+        const dateOnly = isoDate.split('T')[0]; 
+        setExpiryDate(dateOnly); 
 
         setExperience(response.data.experience);
         setSuccess(true);
@@ -137,8 +137,8 @@ export const HrEditJob = () => {
       })
       .catch((error) => {
         console.error('Error applying for job:', error);
-        setError('An error occurred. Please try again.'); // Set error message
-        setIsFormSubmitted(false); // Reset form submission state
+        setError('An error occurred. Please try again.'); 
+        setIsFormSubmitted(false); 
       });
   };
   return (
