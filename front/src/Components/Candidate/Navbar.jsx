@@ -86,7 +86,7 @@ export const Navbar = () => {
   <div>
     <button className="w-10 h-10  bg-white  rounded-full overflow-hidden border-2  focus:border-black" onClick={toggleDropdown}>
     <img
-          src={profile}
+          src={user.avatarUrl}
           alt="profile"
           className="w-full h-full object-cover"
         />

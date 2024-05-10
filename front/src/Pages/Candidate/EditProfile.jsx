@@ -16,6 +16,7 @@ export const EditProfile = () => {
     const [university, setUniversity] = useState('');
     const [fieldOfStudy, setFieldOfStudy] = useState('');
     const [experience, setExperience] = useState('');
+    const [image, setImage] = useState(null);
     const handleInputChange = (e) => {
         setInputValue(e.target.value);
       };
@@ -49,32 +50,64 @@ export const EditProfile = () => {
             });
     }, []);
 
-    const submit = () => {
-        setIsFormSubmitted(true); // Set form submitted to true
-        // Perform update profile logic using the User schema
-        axios
-            .patch(`/api/users/${user._id}`, { // Assuming user._id is the ID of the user you want to update
-                email: email,
-                name: name,
-                avatarUrl: avatarUrl,
-                location,
-                university,
-                skills: tags,
-                experience,
-                fieldOfStudy
-            })
-            .then((response) => {
-                
-                setSuccess(true);
-                setIsFormSubmitted(false); // Reset form submission state
-            })
-            .catch((error) => {
-                console.error('Error updating profile:', error);
-                setError('An error occurred. Please try again.'); // Set error message
-                setIsFormSubmitted(false); // Reset form submission state
-            });
-
+    const handleImageChange = (e) => {
+        setImage(e.target.files[0]); // Set the selected image file
     };
+
+    const handleImageUpload = () => {
+        console.log('Uploading image...');
+        const formData = new FormData();
+        formData.append('file', image);
+        formData.append('upload_preset', 'insta-clone');
+        formData.append("cloud_name","dhw1mueq4");
+    
+        // Return the promise directly
+        return axios.post('https://api.cloudinary.com/v1_1/dhw1mueq4/image/upload', formData)
+            .then(response => {
+                console.log('Image uploaded successfully:', response.data);
+                setAvatarUrl(response.data.url);
+                return response.data.url; // Indicate success
+            })
+            .catch(error => {
+                console.error('Error uploading image:', error);
+                throw error; // Throw error for handling in the calling function
+            });
+    };
+    
+    const submit = () => {
+        setIsFormSubmitted(true);
+    
+        // Call handleImageUpload and chain the promise
+        return handleImageUpload()
+            .then(updatedAvatarUrl => {
+                const response = axios.patch(`/api/users/${user._id}`, {
+                    email: email,
+                    name: name,
+                    avatarUrl: updatedAvatarUrl,
+                    location,
+                    university,
+                    skills: tags,
+                    experience,
+                    fieldOfStudy
+                }, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('jwt')}`
+                    }
+                });
+    
+                setSuccess(true);
+                setIsFormSubmitted(false);
+            })
+            .catch(error => {
+                console.error('Error updating profile:', error);
+                setError('An error occurred. Please try again.');
+                setIsFormSubmitted(false);
+            });
+    };
+    
+    
+    
+    
 
     return (
         <div className='relative w-full h-screen'>
@@ -112,6 +145,12 @@ export const EditProfile = () => {
                             <label className="text-lg font-semibold mb-2">Full Name</label>
                             <input type="text" className={`border border-gray-300 p-2 rounded-lg ${isFormSubmitted && !name.trim() ? 'border-red-500' : ''}`} placeholder="Full Name" value={name} onChange={(e) => setName(e.target.value)} />
                         </div> 
+                        <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                />
+                <button onClick={handleImageUpload}>Upload Image</button>
                         <div className="flex flex-col mb-4">
                         <label className="text-lg font-semibold mb-2">Email</label>
                         <input 

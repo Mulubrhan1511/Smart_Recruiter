@@ -20,6 +20,7 @@ export const Signin = () => {
         if (res.data) {
           localStorage.setItem("jwt",res.data.token)
           localStorage.setItem("user",JSON.stringify(res.data.user))
+          console.log(res.data.user)
           window.location.href = '/';
         } else {
           seterr('Invalid email or password');
