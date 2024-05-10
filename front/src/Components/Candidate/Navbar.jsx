@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react';
-import log from "../../assets/react.svg";
+import log from "../../../public/smartrecruit.png";
 import menu from "../../assets/menu.svg";
-import profile from "../../assets/Profile.png";
+
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);

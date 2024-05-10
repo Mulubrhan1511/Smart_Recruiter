@@ -113,7 +113,15 @@ export const HrApplicantDetails = () => {
       
       <div className="bg-white shadow-md p-6 rounded-lg mb-4">
       <div className="flex justify-between items-center mb-2">
+
         <div>
+        <div className="flex-shrink-0 h-20 w-20">
+        <img 
+            src={applicant.avatarUrl} // Assuming avatarUrl contains the URL of the applicant's image
+            alt={applicant.name} // Alt text for accessibility
+            className="h-full w-full object-cover rounded-full" // Responsive styling
+        />
+    </div>
             <h1 className="text-3xl font-bold">{applicant.name}</h1>
             <p className="text-gray-600">{applicant.email}</p>
         </div>

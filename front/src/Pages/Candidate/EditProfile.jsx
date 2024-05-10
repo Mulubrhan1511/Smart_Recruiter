@@ -43,7 +43,8 @@ export const EditProfile = () => {
                 setUniversity(response.data.profile[0].university);
                 setFieldOfStudy(response.data.profile[0].fieldOfStudy);
                 setExperience(response.data.profile[0].experience);
-                setTags(response.data.profile[0].skills); // Set tags to the skills array if it exists
+                setTags(response.data.profile[0].skills);
+                setAvatarUrl(response.data.avatarUrl) // Set tags to the skills array if it exists
             })
             .catch((error) => {
                 console.error('Error fetching user data:', error);
@@ -55,7 +56,7 @@ export const EditProfile = () => {
     };
 
     const handleImageUpload = () => {
-        console.log('Uploading image...');
+       
         const formData = new FormData();
         formData.append('file', image);
         formData.append('upload_preset', 'insta-clone');
@@ -64,7 +65,7 @@ export const EditProfile = () => {
         // Return the promise directly
         return axios.post('https://api.cloudinary.com/v1_1/dhw1mueq4/image/upload', formData)
             .then(response => {
-                console.log('Image uploaded successfully:', response.data);
+                
                 setAvatarUrl(response.data.url);
                 return response.data.url; // Indicate success
             })
@@ -76,11 +77,41 @@ export const EditProfile = () => {
     
     const submit = () => {
         setIsFormSubmitted(true);
-    
+        if(image === null) {
+            axios.patch(`/api/users/${user._id}`, {
+                email: email,
+                name: name,
+                avatarUrl: avatarUrl,
+                location,
+                university,
+                skills: tags,
+                experience,
+                fieldOfStudy
+            }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('jwt')}`
+                }
+            })
+            .then((response) => {
+                
+                localStorage.setItem("user", JSON.stringify(response.data));
+                setSuccess(true);
+                setIsFormSubmitted(false);
+                setTimeout(() => setSuccess(false), 3000); // Hide success message after 3 seconds
+            })
+            .catch(error => {
+                console.error('Error updating profile:', error);
+                setError('An error occurred. Please try again.');
+                setIsFormSubmitted(false);
+                setTimeout(() => setError(null), 3000); // Hide error message after 3 seconds
+            });
+        }
         // Call handleImageUpload and chain the promise
-        return handleImageUpload()
+        else{
+            
+            handleImageUpload()
             .then(updatedAvatarUrl => {
-                const response = axios.patch(`/api/users/${user._id}`, {
+                axios.patch(`/api/users/${user._id}`, {
                     email: email,
                     name: name,
                     avatarUrl: updatedAvatarUrl,
@@ -93,16 +124,24 @@ export const EditProfile = () => {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('jwt')}`
                     }
-                });
+                })
+                .then((response) => {
+                    localStorage.setItem("user",JSON.stringify(response.data))
+                    setSuccess(true);
+                    setIsFormSubmitted(false);
+                    setTimeout(() => setSuccess(false), 3000); 
+                })
     
-                setSuccess(true);
-                setIsFormSubmitted(false);
+                
             })
             .catch(error => {
                 console.error('Error updating profile:', error);
                 setError('An error occurred. Please try again.');
                 setIsFormSubmitted(false);
+                setTimeout(() => setError(false), 3000); 
             });
+        
+        }
     };
     
     
@@ -171,12 +210,27 @@ export const EditProfile = () => {
 
                         <div className="flex flex-col">
                                 <label className="text-base font-semibold mb-1">Field of Study</label>
-                                <input type="text" className={`border border-gray-300 p-2 rounded-lg ${isFormSubmitted && fieldOfStudy.trim() ? 'border-red-500' : ''}`} placeholder="Field of Study" value={fieldOfStudy} onChange={(e) => setFieldOfStudy(e.target.value)}  />
-                            </div>
+                                <input
+    type="text"
+    className={`border border-gray-300 p-2 rounded-lg ${isFormSubmitted && error === null && !fieldOfStudy.trim() ? 'border-red-500' : ''}`}
+    placeholder="Field of Study"
+    value={fieldOfStudy}
+    onChange={(e) => setFieldOfStudy(e.target.value)}
+/>
+
+                               </div>
                             <div className="flex flex-col">
                                 <label className="text-base font-semibold mb-1">University</label>
-                                <input type="text" className={`border border-gray-300 p-2 rounded-lg ${isFormSubmitted && university.trim() ? 'border-red-500' : ''}`} placeholder="University" value={university} onChange={(e) => setUniversity(e.target.value)}  />
-                            </div>
+                                <input
+    type="text"
+    className={`border border-gray-300 p-2 rounded-lg ${isFormSubmitted && error === null && !university.trim() ? 'border-red-500' : ''}`}
+    placeholder="University"
+    value={university}
+    onChange={(e) => setUniversity(e.target.value)}
+/>
+
+                               
+                                 </div>
                         
                     </div>
 
@@ -187,8 +241,15 @@ export const EditProfile = () => {
                             
                             <div className="flex flex-col">
                                 <label className="text-base font-semibold mb-1">Location</label>
-                                <input type="text" className={`border border-gray-300 p-2 rounded-lg ${isFormSubmitted && location.trim() ? 'border-red-500' : ''}`} placeholder="Location" value={location} onChange={(e) => setLocation(e.target.value)}  />
-                            </div>
+                                <input
+    type="text"
+    className={`border border-gray-300 p-2 rounded-lg ${isFormSubmitted && error === null && !location.trim() ? 'border-red-500' : ''}`}
+    placeholder="Location"
+    value={location}
+    onChange={(e) => setLocation(e.target.value)}
+/>
+
+                                </div>
                             
                             <div className="flex flex-col mb-4">
                                 <label className="text-lg font-semibold mb-2">Skills</label>
@@ -214,8 +275,15 @@ export const EditProfile = () => {
                             
                             <div className="flex flex-col">
                                 <label className="text-base font-semibold mb-1">Experience</label>
-                                <input type="text" className={`border border-gray-300 p-2 rounded-lg ${isFormSubmitted && experience.trim() ? 'border-red-500' : ''}`} placeholder="Experience" value={experience} onChange={(e) => setExperience(e.target.value)}  />
-                            </div>
+                                <input
+    type="text"
+    className={`border border-gray-300 p-2 rounded-lg ${isFormSubmitted && error === null && !experience.trim() ? 'border-red-500' : ''}`}
+    placeholder="Experience"
+    value={experience}
+    onChange={(e) => setExperience(e.target.value)}
+/>
+
+                                </div>
                         </div>
                     </div>
                 </div>
